@@ -10,26 +10,28 @@ const searchBook = () => {
       return;
     }
     searchField.value = '';
-
     searchResult.innerHTML="";
+    totalResultFound.innerText = "";
 
     const url = `https://openlibrary.org/search.json?q=${searchText}`;
     fetch(url)
     .then(res=>res.json())
     .then(data=>displaySearchResult(data.docs));
 }
+
 const displaySearchResult = docs =>{
-  //totalResultFound.innerText = `${docs.numFound}`;
   // error message for not finding a result 
   if (docs.message === "Not Found") {
-    error.innerText = "NO Result Found";
+    error.innerText = "No Result Found";
   } else {
     error.innerText = "";
   }
-
-    // const searchResult = document.getElementById('search-result');
     docs.forEach(doc =>{
-
+      if(docs.value==='Not Found'){
+        totalResultFound.innerText = '';
+      }
+        totalResultFound.innerText =`Total Book Found: ${docs.length}`;
+  
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
